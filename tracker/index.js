@@ -39,7 +39,18 @@ import { removeTrailingSlash } from '../lib/url';
   const screen = `${width}x${height}`;
   const listeners = [];
   let currentUrl = `${pathname}${search}`;
-  let currentRef = document.referrer;
+
+  const getQueryStringParams = query => {
+    return query
+      ? (/^[?#]/.test(query) ? query.slice(1) : query).split('&').reduce((params, param) => {
+          let [key, value] = param.split('=');
+          params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
+          return params;
+        }, {})
+      : {};
+  };
+
+  let currentRef = getQueryStringParams(location.search).utm_source || document.referrer;
 
   /* Collect metrics */
 

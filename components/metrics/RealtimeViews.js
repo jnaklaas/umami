@@ -57,6 +57,14 @@ export default function RealtimeViews({ websiteId, data, websites }) {
                   row.y += 1;
                 }
               }
+            } else {
+              const row = arr.find(({ x }) => x === referrer);
+
+              if (!row) {
+                arr.push({ x: referrer, y: 1 });
+              } else {
+                row.y += 1;
+              }
             }
             return arr;
           }, [])
